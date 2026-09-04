@@ -1,5 +1,6 @@
 package com.mukul.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Department {
     private String name;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Employee> employees;
 
     public String getName() {

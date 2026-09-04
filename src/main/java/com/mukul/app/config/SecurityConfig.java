@@ -1,11 +1,16 @@
 package com.mukul.app.config;
 
+import com.mukul.app.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -16,13 +21,17 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService(){
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("mukul")
-                .password("password")
+        UserDetails user = User.withUsername("mukul")
+                .password(passwordEncoder().encode("password"))
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);
     }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // secure encoder
+    }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -32,7 +41,12 @@ public class SecurityConfig {
                 .requestMatchers("/employees/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .httpBasic();
+                .addFilterBefore(new JwtFilter(),org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
