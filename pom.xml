@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mukul</groupId>
-	<artifactId>SpringBootDemo</artifactId>
+	<artifactId>smart-office-management-system-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SpringBootDemo</name>
+	<name>smart-office-management-system-backend</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -80,8 +80,8 @@
 			<version>0.11.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
