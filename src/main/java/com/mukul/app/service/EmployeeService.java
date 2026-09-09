@@ -10,13 +10,17 @@ import java.util.List;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeEventProducer eventProducer;
 
-    public EmployeeService(EmployeeRepository employeeRepository){
+    public EmployeeService(EmployeeRepository employeeRepository, EmployeeEventProducer eventProducer){
         this.employeeRepository=employeeRepository;
+        this.eventProducer = eventProducer;
     }
 
     public Employee saveEmployee(Employee employee){
-        return employeeRepository.save(employee);
+        Employee e= employeeRepository.save(employee);
+        eventProducer.sendWelcomeEvent(employee.getEmail());
+        return e;
     }
 
     public List<Employee> getEmployees(){

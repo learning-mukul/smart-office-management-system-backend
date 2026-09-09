@@ -14,7 +14,8 @@ import static org.mockito.Mockito.*;
 class EmployeeServiceTest {
 
 private final EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-private final EmployeeService employeeService = new EmployeeService(employeeRepository);
+private final EmployeeEventProducer eventProducer = Mockito.mock(EmployeeEventProducer.class);
+private final EmployeeService employeeService = new EmployeeService(employeeRepository, eventProducer);
 
 @Test
 void testGetAllEmployees() {
