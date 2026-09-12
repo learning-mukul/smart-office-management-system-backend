@@ -19,7 +19,7 @@ public class EmployeeService {
 
     public Employee saveEmployee(Employee employee){
         Employee e= employeeRepository.save(employee);
-        eventProducer.sendWelcomeEvent(employee.getEmail());
+        eventProducer.sendWelcomeEvent(employee.getName(), employee.getEmail());
         return e;
     }
 
